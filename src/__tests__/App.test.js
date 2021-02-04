@@ -18,12 +18,12 @@ const actWait = async (amount = 0) => {
 };
 
 describe("App component", () => {
-  it("should be able to add new repository", async () => {
+  it("should be able to add new project", async () => {
     const { getByText, getByTestId } = render(<App />);
 
-    apiMock.onGet("repositories").reply(200, []);
+    apiMock.onGet("projects").reply(200, []);
 
-    apiMock.onPost("repositories").reply(200, {
+    apiMock.onPost("projects").reply(200, {
       id: "123",
       url: "https://github.com/josepholiveira",
       title: "Desafio ReactJS",
@@ -36,15 +36,15 @@ describe("App component", () => {
 
     await actWait();
 
-    expect(getByTestId("repository-list")).toContainElement(
+    expect(getByTestId("project-list")).toContainElement(
       getByText("Desafio ReactJS")
     );
   });
 
-  it("should be able to remove repository", async () => {
+  it("should be able to remove project", async () => {
     const { getByText, getByTestId } = render(<App />);
 
-    apiMock.onGet("repositories").reply(200, [
+    apiMock.onGet("projects").reply(200, [
       {
         id: "123",
         url: "https://github.com/josepholiveira",
@@ -53,7 +53,7 @@ describe("App component", () => {
       },
     ]);
 
-    apiMock.onDelete("repositories/123").reply(204);
+    apiMock.onDelete("projects/123").reply(204);
 
     await actWait();
 
@@ -61,6 +61,6 @@ describe("App component", () => {
 
     await actWait();
 
-    expect(getByTestId("repository-list")).toBeEmpty();
+    expect(getByTestId("project-list")).toBeEmpty();
   });
 });
